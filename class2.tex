@@ -1,0 +1,300 @@
+\section{Generative Art -- Randomness}
+Last class we covered drawing static images and animations using primitive shapes and control flow; however, as you may have noticed, these produce very `rigid' shapes that are somewhat unappealing aesthetically.  Computers excel at following instuctions accurately; however, it's this accuracy that can also provides an dull mechanical feel to images generated with them.  The natural world exhibits plenty of random and emergent phenomena; so we'll follow suit and try to add randomness and complexity to our art to give it more aesthetic appeal.
+
+\subsection{Randomness}
+The simplest way to add randomness is to use the \texttt{random()} function that is built in to Processing.  \texttt{random()} takes a one or two arguments that tell the function what range to generate a random number in.  By default, the range is 0 to 1; a single argument produces an upper limit and two creates upper and lower bounds.  \texttt{random(10)} generates a random number between 0 and 10; \texttt{random(20,25)} between 20 and 25.  Let's check a quick example:
+
+\begin{verbatim}
+void setup(){
+  size(500,500);
+  background(255);
+  ellipse(random(width),random(height),100,100);
+  ellipse(width/2,height/2,random(100),random(100));
+}
+\end{verbatim}
+
+Try running this code a few times.  You'll find that one ellipse is always drawn at the center, but with a random size -- the second circle is always the same size, but jumps around the screen.  We can easily turn this into an animation:
+
+\begin{verbatim}
+void setup(){
+  size(500,500);
+  background(255);
+}
+
+void draw(){
+  ellipse(random(width),random(height),100,100);
+  delay(500);
+}
+\end{verbatim}
+
+You'll notice I snuck a \texttt{delay()} in there -- this causes the program to wait a certain number of milliseconds before continuing.
+
+Let's examine how to best utilize random numbers.  Start with a simple line:
+
+\begin{verbatim}
+void setup(){                                                                                                                                                                                                  
+  size(500,100);
+  background(255);
+  strokeWeight(5);
+  stroke(20,50,70,128);
+  line(20,height/2,480,height/2);
+}
+\end{verbatim}
+
+And now let's add some randomness to it!
+
+\begin{verbatim}
+void setup(){                                                                                                                                                                                                  
+  size(500,100);
+  background(255);
+  strokeWeight(5);
+  stroke(20,50,70,128);
+  line(20,random(height),480,random(height));
+}
+\end{verbatim}
+
+But again, this isn't very exciting.  Despite the orientation being random, the lines is still too mechanical.  So how can we make the line less mechanical looking?  The answer is noise!
+
+\subsection{Noise}
+Traditionally, noise refers to an unwanted random addition to a signal (like static pickup in a radio antennae).  However, for us, noise will be a \emph{wanted} addition to our signal (the primitive shapes we learned to draw last class).  However, first, we'll have to relearn how to draw a line:
+
+\subsubsection{Example: Noisy Lines}
+\begin{verbatim}
+float lastY = 50;
+
+void setup(){                                                                                                                                                                                                  
+  size(500,100);
+  background(255);
+  smooth();
+  strokeWeight(5);
+  stroke(20,50,70,128);
+  line(20,50,480,50);
+  stroke(20,50,70);
+  noisyLine(20,50,480,10);
+}
+
+void noisyLine(int startX, int startY, int endX, int step){
+  for(int x = startX;x < endX;x += step){
+    float randomY = random(25);
+    line(x,lastY,x+step,startY+randomY);
+    lastY = startY + randomY;
+  }
+}
+\end{verbatim}
+
+You'll see at the bottom I defined a new function called \texttt{noisyLine()}.  The structure of a function is simple -- you give it a type (the type of variable it returns; `void' in the case of a shape), a name (`noisyLine'), and a list of arguments and their types.  Then you type a list of instructions just like you would in \texttt{setup()} or \texttt{draw()}, and every time you call this function, all of those instructions run.
+
+This function breaks up our `line' into many smaller lines.  We start at the point \texttt{(startX,startY)}, and from there we do the following:
+
+\begin{enumerate}
+\item Add \texttt{step} to the current value of \texttt{x}.
+\item Add a random number between 0 and 25 to the previous value of y (\texttt{lastY}).
+\item Draw a from the previous \texttt{x,y} to the new \texttt{x,y}.
+\item Save the current random \texttt{y} as \texttt{lastY}.
+\item Repeat until we've reached \texttt{endX}.
+\end{enumerate}
+
+When we make a line like this, we have the opportunity to add noise at a specified interval.  The line is starting to approach the aesthetic we're looking for!
+
+However, you'll notice that \texttt{noisyLine} always generates a line below the reference line.  This is because our noise is always positive (it's between 0 and 25!).  If we wanted both positive and negative noise, we'll have to do something a bit trickier.
+
+\begin{verbatim}
+void noisyLine(int startX, int startY, int endX, int step){
+  for(int x = startX;x < endX;x += step){
+    float randomY = random(50) - 25;
+    line(x,lastY,x+step,startY+randomY);
+    lastY = startY + randomY;
+  }
+}
+\end{verbatim}
+
+We need to generate a random number larger than the size we want, and then we subtract a number from it!  In this instance, we'll get noise between -25 and 25 -- if the random number generator gives us 50, \texttt{randomY} gives us 25; if the generator gives us 0, then \texttt{randomY} returns -25.  In general:
+
+\begin{center}
+{\tt noise = random(maxNoise - minNoise) + minNoise}
+\end{center}
+
+We've taken yet another step closer to that organic aesthetic we're looking for!  Now the noise causes our shape to sway back and forth along the rigid line it would otherwise trace.  However, this noise is still awfully jagged... wouldn't it be nice if it was a bit smoother?  Enter Perlin Noise!
+
+Perlin noise is a random-number generating function that was designed to create natural-looking textures in computer graphics\footnote{If you want to learn about how it works, check out \url{http://mrl.nyu.edu/~perlin/}}.  It generates a sequence of numbers that have just enough variance to look seemingly random, but are closely enough packed together to give the appearance of a smooth change from point to point.  Processing already has Perlin noise implemented as \texttt{noise()}.  \texttt{noise()} takes a series of `seed' values, and then generates a sequence of psuedo-random numbers in the range 0 to 1.  A few notes on its use:
+
+\begin{itemize}
+\item In order to get the smoothest noise, you'll want to vary the seed value incrementally.  Best results are when you vary the noise by a small amount each time -- less than 0.1 gives nice, smooth variations.
+\item \texttt{noise()} generates a number between 0 and 1; you can't change this.  However, you can generate the same type of positive and negative noise by using: \\
+\begin{center}
+{\tt noise = (maxNoise - minNoise)*noise(seed) + minNoise}
+\end{center}
+
+This will properly scale your noise.
+\item Perlin noise is implemented with a pre-determined sequence of noise values; therefore, you'll get the best behavior by using a random starting seed each time you run it.
+\end{itemize}
+
+An example of Perlin noise (see \texttt{perlinLine}):
+
+\begin{verbatim}
+void noisyLine(int startX, int startY, int endX, int step){
+  for(int x = startX;x < endX;x += step){
+    seedY += 0.2;
+    float randomY = 50*noise(seedY) - 25;
+    line(x,lastY,x+step,startY+randomY);
+    lastY = startY + randomY;
+  }
+}
+\end{verbatim}
+
+\subsubsection{Programming Tasks:}
+\begin{enumerate}
+\item Make a noisyEllipse function.
+\item Add positive-only random noise.
+\item Add positive/negative random noise.
+\item Add Perlin noise to the sketch.
+\item Modify the radius, color, size, thickness -- whatever you want!
+\end{enumerate}
+
+
+
+\subsection{Applications of Noise}
+\subsubsection{Noisy Particle}
+\begin{verbatim}
+float r = 150;
+float theta = 0;
+float theta_vel = 0.02;
+float rad_vel = 7;
+float centX, centY;
+float radNoise;
+
+void setup() {
+  //setup the sketch parameters
+  background(255);
+  size(500, 500);
+  frameRate(30);
+  smooth();
+  centX = width/2;
+  centY = height/2;
+  //seed noises
+  radNoise = random(17);
+}
+
+void draw() {
+  fill(0,43);
+  rect(0,0,width,height);
+  //increment noise
+  radNoise += 0.1;
+  r += (noise(radNoise) - 0.5)*rad_vel;
+  theta += theta_vel;
+  float x = r*cos(theta) + centX;
+  float y = r*sin(theta) + centY;
+  //setup the parameters for drawign the ellipse
+  noStroke();
+  fill(255*noise(x),255,255*noise(y));
+  //draw the ellipse
+  ellipse(x, y, 16, 16);
+  //update the position for the next frame
+}
+\end{verbatim}
+
+A simple modification of our friendly particle from last class.  He's still moving in a circle; however, his path is being modulated by Perlin noise!  Notice how it makes his path look much more random and natural.  The color of our particle is also beign modulated by the noise values -- it's an extremely subtle but pleasant effect.
+
+\subsubsection{Example: Noisy Spiral}
+\begin{verbatim}
+float rad = 0;
+float theta = 0;
+float centX, centY;
+float lastx = 250;
+float lasty = 250;
+float seed = random(17);
+
+void setup() {
+  //setup the sketch parameters
+  size(500, 500); 
+  background(255);
+  //object color properties
+  stroke(30, 50, 70, 128);
+  noFill();
+  strokeWeight(5);
+  smooth();
+  //setup some reference variables
+  centX = width/2;
+  centY = height/2;
+  //draw a reference circle
+  ellipse(centX, centY, 100, 100);
+  //now draw the part-by-part circle
+  stroke(30, 50, 70);
+  fill(255,3);
+}
+
+//-----------------Main Loop
+void draw() {
+  //rect(0,0,width,height);
+  seed += 0.5;
+  rad += 20*noise(seed) - 5;
+  theta += 5;
+  float x = centX + rad*cos(radians(theta));
+  float y = centY + rad*sin(radians(theta));
+  line(lastx, lasty, x, y);
+  lastx = x;
+  lasty = y;
+  if(abs(rad) > 250){
+    rad = 0;
+    lastx = centX;
+    lasty = centY;
+  }
+}
+\end{verbatim}
+
+Here's an example of putting it all together.  This sketch draws a noisy spiral by increment radius by a noise value, and drawing a line between the previous \texttt{(r,theta)} pair and the newly generated pair.  The noise can be positive or negative, which results in the spiral lines expanding and contracting, and sometimes even crossing each other.  The spirals are drawn piecewise in each frame, giving the appearance that the spiral is expanding outwards.  This is a case of where \emph{not} writing a function is useful -- if I wrote a function to draw the entire spiral, than each frame would draw an entire spiral and I couldn't see the spiral expand outwards!
+
+Now try uncommenting the line that draws the transparent rectangle (and play with the final \texttt{fill()} command in \texttt{setup()}!).  You can get a variety of effects just from playing with the transparency, ranging from individual particles expanding outwards to complex superpositions of spirals.  This is what is commonly called in generative art a \emph{particle emitter} (we'll take about these more in our next class).
+
+\subsubsection{Example: Noise Visualization}
+\begin{verbatim}
+float delta = 0.05;
+float xnoise = 0;
+float ynoise = 0;
+float xstart = 0;
+float len = 0;
+
+void setup(){
+  size(500,500);
+  background(255);
+  smooth();
+  //frameRate(24);
+  xnoise = random(17);
+  xstart = xnoise;
+  ynoise = random(17);
+  noStroke();
+  for(int x = 0; x < width; x+=5){
+    ynoise += delta;
+    xnoise = xstart;
+    for(int y = 0; y < height; y+=5){
+      xnoise += delta;
+      len = 10*noise(xnoise,ynoise);
+      fill(128,0,255);
+      rect(x,y,len,len);
+    }
+  }
+}
+\end{verbatim}
+
+Here's another example of using noise to generate interesting visual textures.  Here we used nested \texttt{for} loops to iterate over a 2D grid, and place a rectangle at each point in space with a size corresponding to the noise value.  Here you see that we've used two arguments for \texttt{noise()} --  it can actually support up to three for three-dimensional noise.
+
+We can spice it up further by modifying \texttt{fill()} to use a noise-generated argument to determine the color!  Another example of a noise visualizer can be found under \texttt{angle.pde}; this one changes the angle of the lines based on noise values.
+
+\subsubsection{Programming Tasks:}
+Make your own noise visualization sketch!  Feel free to use the provided examples as a template.  Some thoughts:
+
+\begin{itemize}
+\item Color and/or transparency are good places to start if you don't know what parameter you want to feed the noise into
+\item You can animate the sketch by resetting your starting noise seed at the beginning of every \texttt{draw()} cycle (these correspond to \texttt{xstart} and \texttt{ystart} in the example sketches).
+\end{itemize}
+
+\subsection{Project -- Animated Noise}
+Take either the Noise Visualization or one of the NoisyParticle sketches and expand on it!  The final sketch should be:
+
+\begin{itemize}
+\item Animated
+\item Utilize Perlin noise
+\item Be posted to \url{http://openproccesing.org/}
+\end{itemize}
+
+We'll (briefly) share our sketches at the next class to share some ideas!

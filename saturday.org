@@ -1,0 +1,21 @@
+* Lecture (120 min; 10am-12pm)
+** Decisions, Repetition (1.5 hours)
+** Introduce Projects (15 min)
+
+*** Image Processing (static)
+**** Goal: read documentation
+
+*** Minim
+**** Goal: use libraries
+**** 
+
+*** Particle Emitter
+**** Goal: Object-Oriented Programming
+**** Project: 
+
+* Lunch (60 min; 12pm-1pm)
+** Decide on projects
+
+* Project Slot 1 (120 min; 1pm-2:40 pm)
+
+* Project Slot 2 (120 min; 3pm-5pm)

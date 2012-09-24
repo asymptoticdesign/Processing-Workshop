@@ -1,0 +1,407 @@
+\section{Generative Art -- Interactive Sketches}
+So far we've learned a variety of techniques for drawing objects in Processing; however, these techniques limit our sketches to the screen.  What if we want more?  What if we want to interact with the rest of the world in a different way?  Fortunately, Processing has several libraries that allow just this functionality.  Using these libraries, we can send data \emph{in} to Processing, and then use the techniques we've learned to alter it and present it visually!
+
+\subsection{User Interaction}
+In this section we will present three ways of inputting data to your Processing files, all from within your computer.  These are accepting data from the mouse, the keyboard, and from files.
+
+\subsubsection{Mouse Interaction}
+There are four variables and four functions associated with mouse inputs.  \texttt{mouseX} and \texttt{mouseY} are two variables that always return an integer with the $(x,y)$ coordinate of the mouse in the sketch.  If the mouse leaves the sketch, \texttt{mouseX} and \texttt{mouseY} return the values that the mouse was last at.  \texttt{mousePressed} returns a boolean value (\texttt{True} or \texttt{False}) that tells whether a mouse button was pressed or not.  To determine which one was pressed, we use \texttt{mouseButton} -- which takes the value of \texttt{LEFT}, \texttt{CENTER}, or \texttt{RIGHT} depending on which mouse button was pushed.
+
+Processings with four mouse functions predefined: \texttt{mousePressed()}, \texttt{mouseReleased()}, \texttt{mouseMoved()}, and \texttt{mouseDragged()}.  These work in very much the same way as \texttt{setup()} and \texttt{draw()} -- the contents are left up to you to define, but Processing knows when to run these functions.
+
+\begin{verbatim}
+Circle[] circleArray = {};
+
+void setup(){
+  size(500,300);
+  background(0);
+  smooth();
+  strokeWeight(1);
+  frameRate(30);
+  fill(150,50);
+  drawCircles();
+}
+
+void draw(){
+  background(0);
+  for(int i = 0;i < circleArray.length;i++){
+    Circle circleInstance = circleArray[i];
+    circleInstance.update();
+    circleInstance.display();
+  }
+}
+
+void mouseReleased(){
+ drawCircles(); 
+}
+
+void drawCircles(){
+   Circle circleInstance = new Circle();
+   circleInstance.display();
+   circleArray = (Circle[])append(circleArray,circleInstance);
+}
+
+class Circle {
+  float x,y,radius,velocityX,velocityY;
+  color lineColor, fillColor;
+  
+  Circle() {
+    x = mouseX;
+    y = mouseY;
+    radius = random(75) + 25;
+    lineColor = color(random(255));
+    fillColor = color(0,random(255),0);
+    velocityX = random(10) - 5;
+    velocityY = random(10) - 5;
+  }
+  
+  void display() {
+   noStroke();
+   fill(fillColor);
+   ellipse(x,y,2*radius,2*radius);
+   stroke(lineColor,150);
+   noFill();
+   ellipse(x,y,radius/2,radius/2); 
+  }  
+  
+  void update() {
+    x += velocityX;
+    y += velocityY;
+    if (x > (width + radius)){
+      x = 0 - radius;
+    }
+    if (x < (0 - radius)){
+      x = width + radius;
+    }
+    if (y > (height + radius)){
+      y = 0 - radius;
+    }
+    if (y < (0 - radius)){
+      y = height + radius;
+    }
+  }
+}
+\end{verbatim}
+
+Here's a simple modified example of the circle generator we did last class.  Now each circle is drawn at (\texttt{mouseX},\texttt{mouseY}) rather than drawn randomly on the canvas.
+
+\subsubsection{Keyboard Interaction}
+You can also use the keyboard as an input in much the same way as a mouse.  The keyboard interactions are available through the variables \texttt{key} and \texttt{keyCode}, the boolean \texttt{keyPressed}, and the functions \texttt{keyPressed()} and \texttt{keyReleased()}.  These are analogous to their mouse counterparts, with one small difference:  when \texttt{keyPressed()} is called, the key that was pressed is stored in the \texttt{key} variable.  To check what key was hit, you can use an if statement:
+
+\begin{verbatim}
+if (key == value) {
+  //place your function here
+}
+\end{verbatim}
+
+where \texttt{value} is the value of the key.  For any key included in the ASCII specification, you can just include the key name (letters, numbers, symbols, and \texttt{BACKSPACE}, \texttt{TAB}, \texttt{ENTER}, \texttt{RETURN}, \texttt{ESC}, and \texttt{DELETE}).  If its a special key (arrow keys, control, shift, alt) then you'll have to use the \texttt{keyCode} variable as so:
+
+\begin{verbatim}
+if (key == CODED) {
+  if (keyCode == value)
+  //place your function here
+}
+\end{verbatim}
+
+This checks if the key is a coded (non-ASCII) key first, and then if it is proceeds to check what kind of coded key it is.  The possible values for \texttt{keyCode} include \texttt{UP}, \texttt{DOWN}, \texttt{LEFT}, \texttt{RIGHT}, \texttt{SHIFT}, \texttt{ALT}, and \texttt{CONTROL}.
+
+\begin{verbatim}
+Circle[] circleArray = {};
+int blueChannel = 0;
+color circleColor = color(0,255,blueChannel);
+
+void setup(){
+  size(500,300);
+  background(0);
+  smooth();
+  strokeWeight(1);
+  frameRate(30);
+  fill(150,50);
+  drawCircles();
+}
+
+void draw(){
+  background(0);
+  for(int i = 0;i < circleArray.length;i++){
+    Circle circleInstance = circleArray[i];
+    circleInstance.update();
+    circleInstance.display();
+  }
+}
+
+void mouseReleased(){
+ drawCircles(); 
+}
+
+void keyPressed(){
+  if (key == CODED) {
+    if (keyCode == UP) {
+      blueChannel += 25;
+      circleColor = color(0,255,blueChannel);
+    }
+    else if (keyCode == DOWN) {
+      blueChannel -= 25;
+      circleColor = color(0,255,blueChannel);
+    }
+  }
+}
+
+void drawCircles(){
+   Circle circleInstance = new Circle(circleColor);
+   circleInstance.display();
+   circleArray = (Circle[])append(circleArray,circleInstance);
+}
+
+class Circle {
+  float x,y,radius,velocityX,velocityY;
+  color lineColor, fillColor;
+  
+  Circle(color circleFill) {
+    x = mouseX;
+    y = mouseY;
+    radius = random(75) + 25;
+    lineColor = color(random(255));
+    fillColor = circleFill;
+    velocityX = random(10) - 5;
+    velocityY = random(10) - 5;
+  }
+  
+  void display() {
+   noStroke();
+   fill(fillColor);
+   ellipse(x,y,2*radius,2*radius);
+   stroke(lineColor,150);
+   noFill();
+   ellipse(x,y,radius/2,radius/2); 
+  }  
+  
+  void update() {
+    x += velocityX;
+    y += velocityY;
+    if (x > (width + radius)){
+      x = 0 - radius;
+    }
+    if (x < (0 - radius)){
+      x = width + radius;
+    }
+    if (y > (height + radius)){
+      y = 0 - radius;
+    }
+    if (y < (0 - radius)){
+      y = height + radius;
+    }
+  }
+}
+\end{verbatim}
+
+Now we've taken the mouse example and taken it one step further.  The color has now been set to a variable that we can change by hitting the up and down arrows -- they increase and decrease blue, respectively.  Take note that we have to redefine the color using the new value of \texttt{blueChannel}, or else the color won't change!
+
+\subsubsection{Data Upload}
+The final form of data input available straight from your computer is file input.  You can upload either strings or numbers into processing.  This is done with \texttt{loadStrings()}, which reads the contents of a file into a String array.  Each line of the file becomes an element in the array.  If we want to access an individual item in the array, then we need to use the function \texttt{split()} to split each line into items.  The \texttt{split()} function takes two arguments -- the string to be split up (in this case, a line) and the \emph{delimiter}, a symbol to tell the function where to split the string.  For data files common delimiters are commas (','), tabs ('$\backslash$ t'), are spaces (`` ''), though the delimter can be any string.  Here's a simple example of taking a data file that contains random numbers between 0 and 255, and using it to generate a bar graph:
+
+\begin{verbatim}
+int[] data;
+
+//-----------------Setup
+/*The code in setup() will only be run once in your sketch.  Use this space to set things up like
+the sketch size, background color, framerate, etc. etc.*/
+void setup(){
+  size(512,255);
+  background(0);
+  smooth();
+  noStroke();
+  String[] dataFile = loadStrings("data.txt");
+  String[] numbers = split(dataFile[0],',');
+  data = int(numbers);
+  for (int i = 0; i < data.length; i++) {
+    fill(data[i]);
+    rect(i*20,0,20,data[i]);
+}
+}
+\end{verbatim}
+
+\subsection{Audio Interaction}
+Processing's Minim library provides many tools for both making and reacting to sound.  Here's a few simple examples of what to do with it!
+\subsubsection{Making Some Noise}
+\subsubsubsection{Playing a Sound}
+The simplest thing we can do is to play a sound.  Here's a simple sketch that does just that!
+
+\begin{verbatim}
+import ddf.minim.*;
+Minim minim;
+AudioPlayer player;
+
+void setup() {
+  minim = new Minim(this) ;
+  player = minim.loadFile("knocking-1.wav");
+}
+
+void draw(){
+}
+
+void stop(){
+  player.close();
+  minim.stop();
+  super.stop();
+}
+
+void mousePressed() {
+  player.play(0) ;
+}
+\end{verbatim}
+
+The first three lines import the audio library and create the appropriate objects -- the \texttt{Minim} object is needed to do anything with audio (and takes the argument 'this' to refer to 'this' sketch) and the \texttt{AudioPlayer} class sets up a player that can play sounds.
+
+You simply load a file using \texttt{minim.loadFile()}, and can play it by using the \texttt{play()} method on the object.  Note that the \texttt{play()} method plays from wherever the file currently is, or you give it an argument to tell it how many seconds in to start at.  If you don't include the 0, then it will only play once, hit the end of the file, and it won't play any further sounds.
+
+\subsubsubsection{Generating Sound}
+Not only can Minim play sounds, it can \emph{create} them.  For that we'll need the to import the Signals library (and Effects library if we want any fancy effects).  Here's an example sketch:
+
+\begin{verbatim}
+import ddf.minim.*;
+import ddf.minim.signals.*;
+import ddf.minim.effects.*;
+
+Minim minim;
+AudioOutput audioOut;
+SineWave sinusoid;
+
+void setup(){
+  size(512,128);
+  minim = new Minim(this);
+  audioOut = minim.getLineOut();
+  sinusoid = new SineWave(440, 1, 44100);
+  audioOut.addSignal(sinusoid);
+}
+
+void draw(){
+  sinusoid.setFreq(mouseX);
+}
+
+void stop() {
+  super.stop();
+  minim.stop();
+}
+\end{verbatim}
+
+\subsubsection{Sound Reactivity}
+Perhaps my favorite use of Minim is for \emph{analyzing} sound.  Starting with the simplest example again, we can draw the waveforms from an audio file:
+
+\begin{verbatim}
+import ddf.minim.*;
+ 
+Minim minim;
+AudioPlayer song;
+ 
+void setup(){
+  size(512, 600);
+  minim = new Minim(this);
+  song = minim.loadFile("teleport.mp3",512);
+  song.play();
+}
+
+void draw(){
+  background(0);
+  stroke(255);
+  for(int i = 0; i < song.bufferSize() - 1; i++){
+    line(i, 200 + song.left.get(i)*100, i+1, 200 + song.left.get(i+1)*100);
+    line(i, 400 + song.right.get(i)*100, i+1, 400 + song.right.get(i+1)*100);
+  }
+}
+ 
+void stop(){
+  song.close();
+  minim.stop();
+  super.stop();
+}
+\end{verbatim}
+
+This draws the entire song buffer's waveform on the screen during each frame by simply drawing lines.  Think about two classes ago when we made our own function for drawing lines -- this is almost the same thing!
+
+However, if we want to do really sophisticated stuff with sound, then we should move forward and learn the fourier transform.  A fourier transform looks at the sound in the \emph{frequency domain}; this means that instead of looking at the waveform vs. time, we look at the frequency composition of the sound at each moment.  I find that an example tends to clarify this:
+
+\begin{verbatim}
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+ 
+Minim minim;
+AudioPlayer song;
+FFT fft;
+ 
+void setup(){
+  size(512, 200);
+  minim = new Minim(this);
+  song = minim.loadFile("teleport.mp3", 1024);
+  song.play();
+  fft = new FFT(song.bufferSize(), song.sampleRate());
+}
+ 
+void draw(){
+  background(0);
+  //'forward' indicates a forward Fourier Transform on the track
+  fft.forward(song.mix);
+  stroke(255, 0, 0, 128);
+  for(int i = 0; i < fft.specSize(); i++){
+    line(i, height, i, height - fft.getBand(i)*10);
+  }
+}
+ 
+void stop(){
+  song.close();
+  minim.stop();
+  super.stop();
+}
+\end{verbatim}
+
+\begin{verbatim}
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+ 
+Minim minim;
+AudioPlayer song;
+FFT fft;
+ 
+void setup()
+{
+  size(500, 500);
+ 
+  minim = new Minim(this);
+  song = minim.loadFile("teleport.mp3", 1024);
+  song.play();
+
+  fft = new FFT(song.bufferSize(), song.sampleRate());
+}
+ 
+void draw()
+{
+  background(0);
+  fft.forward(song.mix);
+  //calcAvg calculates the average frequency between the high and low band
+  float r = 100*fft.calcAvg(0,song.sampleRate()/4);;
+  stroke(0, 0, 255, 128); 
+  fill(0, 0, 255, 128);
+  ellipse(250, 250, r, r);
+
+  stroke(0, 128, 128, 128); 
+  fill(0, 128, 128, 128);
+  ellipse(250, 250, 0.75*r, 0.75*r);
+  
+  stroke(0, 255, 0, 128); 
+  fill(0, 255, 0, 128);
+  ellipse(250, 250, 0.5*r, 0.5*r);
+
+}
+ 
+void stop()
+{
+  song.close();
+  minim.stop();
+  super.stop();
+}
+\end{verbatim}
+
+\subsection{Video Interaction}
+\subsubsection{Camera Feed}
+GSVideo Input Example
+\subsubsection{Making Videos}
+Line of code to save video

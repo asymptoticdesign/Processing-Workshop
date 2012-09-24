@@ -1,0 +1,28 @@
+* Introduction to Processing (< 15 min)
+** What is Processing?
+** Why is it awesome?
+** Show some stuff to get people excited!
+
+* Introductions (< 15 min)
+**
+**
+
+* Installation (< 15 - 30 min)
+** Processing
+** Test
+** Download course materials
+
+* Intro to Processing 
+** Environment
+** Structure
+*** size()
+** Primitives
+*** Coordinates
+*** point, line, ellipse, rect, triangle
+*** stroke/fill
+** Variables & Data Types
+*** Int, Float, Boolean
+*** Operations
+*** Assignment
+** Functions
+*** void vs. return type
