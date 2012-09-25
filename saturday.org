@@ -3,7 +3,8 @@
 ** Introduce Projects (15 min)
 
 *** Image Processing (static)
-**** Goal: read documentation
+**** Goal: read documentation, arrays
+**** Image 1,3,4,5
 
 *** Minim
 **** Goal: use libraries

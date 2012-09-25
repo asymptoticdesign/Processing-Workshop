@@ -1,0 +1,57 @@
+\documentclass[11pt]{article}
+
+%packages
+\usepackage{times}
+\usepackage[small,compact]{titlesec}
+\usepackage[small,it]{caption}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage[final]{pdfpages}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{lipsum}
+
+%header, footer, spacing setup
+\pagestyle{fancyplain}
+\singlespacing
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[CE,CO]{Intro to Visual and Generative Art}
+\fancyfoot[CE,CO]{\thepage}
+
+\begin{document}
+
+\centerline{\Large \bf Intro to Visual and Generative Art (In Processing)}
+\medskip
+\centerline{Course Notes by Nathan Lachenmyer}
+\medskip
+\centerline{Last Updated: \today}
+\bigskip
+\begin{figure}[h]
+\includegraphics[width=\linewidth]{noise.jpg}
+\caption{Perlin Noise Visualization by Nathan Lachenmyer}
+\end{figure}
+
+\thispagestyle{empty}
+
+\clearpage
+\tableofcontents
+
+\clearpage
+\include{class1}
+
+\clearpage
+\include{class2}
+
+\clearpage
+\include{class3}
+
+\clearpage
+\include{class4}
+
+
+\end{document}

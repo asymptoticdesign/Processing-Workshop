@@ -1,7 +1,11 @@
 * Introduction to Processing (< 15 min)
 ** What is Processing?
+*** 
+*** Sketch analogy
 ** Why is it awesome?
+
 ** Show some stuff to get people excited!
+
 
 * Introductions (< 15 min)
 **
@@ -11,6 +15,7 @@
 ** Processing
 ** Test
 ** Download course materials
+
 
 * Intro to Processing 
 ** Environment

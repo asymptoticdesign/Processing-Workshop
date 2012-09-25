@@ -1,0 +1,302 @@
+
+\section{Installation}
+To install processing, go to \url{http://processing.org/download/} and download \textbf{Processing 1.5.1}.  This is listed under \textbf{Stable Releases}.  DO NOT download Processing 2.0b3; there are features that are currently buggy in Processing 2.0b3 that we will be using.  However, feel free to download and use Processing 2.0b3 after this workshop!
+
+After downloading the zip file, simply unzip it and run the executable.
+
+\subsection{First Sketch}
+\subsubsection{Hello World}
+In the Processing Development Environment, type:
+
+\begin{verbatim}
+ellipse(25,25,50,50);
+\end{verbatim}
+
+Don't forget the semicolon!  Then click, Run (the first round button that looks like `Play').  An circle should show up in a separate window.  Congratulations, this is your first sketch!  Welcome to the World of Processing!
+
+\texttt{ellipse} is a \emph{function}; it is a piece of (prewritten) code that performs a certain task.  It takes four \emph{arguments} (or \emph{parameters}) -- \texttt{x}, \texttt{y}, \texttt{width}, and \texttt{height}.  In this case, we placed the center at (25,25) with a width and height of 50.  Processing has literally thousands of function pre-written; all of these are made to make expressing your creative ideas as easy as possible!
+
+Rather than go through everything you might possibly want to know about Processing, let's go through a simple example.
+
+\subsubsection{Example: Simple Droplet}
+This example is called `Simple Droplet' -- you'll see why later!  But for now, bear with me as we start from the beginning.  Copy and paste the following code into the Processing IDE:
+
+\begin{verbatim}
+int diam = 100;
+float centX, centY;
+
+void setup(){
+  size(500,300);
+  background(64,0,196);
+  centX = width/2;
+  centY = height/2;
+  stroke(0,0,255);
+  strokeWeight(1);
+  fill(255,25);
+  ellipse(centX,centY,diam,diam);
+}
+\end{verbatim}
+
+Before \texttt{setup()}, I have two lines of code declaring \emph{variables}.  Variables are names that we can assign an arbitrary value; it's extremely useful if we want to use a certain number (like 100) multiple times in the code.  By making it a variable, we can change only one line of code to change the value of 10 everywhere we specificied its variable name!  Variable initialized outside of a function are \emph{global variables}; these are variables that don't just exist within a function (like \texttt{setup()}); they exist throughout your entire Processing sketch.  This becomes extremely important later when we start using multiple functions for our sketches, including the \texttt{draw()} function to animate our sketches.
+
+When you `initialize' a variable in Processing, you must:
+\begin{itemize}
+\item Give the variable a name (like `diam')
+\item Give the variable a type (like `int')
+\item Initialize the variable to a value (like 100).  If you don't specify a value, the variable initializes to 0.
+\end{itemize}
+
+For now, we will only be using the data types `int' and `float'.  `int' specifies an integer (like 1, 2, 3, -1, 10), and `float' specifies a floating point (decimal) number.  Use the `int' variable type when you're counting things or defining pixels, and use the `float' variable type when doing math (or else you'll get unexpected behavior -- like 1 / 1.5 is zero!).
+
+Next comes the \texttt{setup()} function.  It takes no arguments -- this is why the parenthesis following it are empty.  However, even if it has no arguments, you still have to provide the parenthesis!  Everything within this loop will run exactly once during your sketch -- before the sketch window launches, in fact.  This is a good place to put stuff that isn't meant to repeat, or that configures aspects of your window -- such as its size and background color.
+
+\texttt{size()} is a function that takes two arguments -- the desired \texttt{width} and \texttt{height} of your sketch, measured in pixels.  It sets the size of your `palette', so to speak.  It also creates the \emph{local} variables \texttt{width} and \texttt{height} -- these can only be used in \texttt{setup()}, because they are \emph{localized} to that function (to the computer, this means that it can throw these variables away once it is done with \texttt{setup()}).  If you want to use them later on in your sketch, you'll have to store them in a global variable.
+
+\texttt{background()}, \texttt{stroke()}, and \texttt{fill()} are all functions that take color arguments and set the color of various parts of your sketch.  \texttt{background()} sets the background color, while \texttt{stroke()} and \texttt{fill()} set the color of the shapes you draw (until you change it with another \texttt{stroke()} or \texttt{fill()} command).
+
+There are two ways to define color in Processing: in greyscale (black and white) or RGB color\footnote{Okay, this isn't necessarily true.  If you want to learn more about how Processing handles colors, check out \url{http://processing.org/learning/color/}}.  In greyscale color, 0 represents black and 255 is white; every integer value between 0 and 255 is a shade of grey.  If any of the above functions are called with just one number, Processing assumes it is greyscale.  On the other hand, you can give Processing \emph{three} colors (such as \texttt{stroke(0,0,255)}) in which case it interprets the numbers as values for \textbf{R}ed, \textbf{B}lue, and \textbf{G}reen (hence, RGB).  In RGB color, 0 means that the color is not present at all, while 255 means that the color is maximally present.  Both greyscale and RGB color modes support an optional extra option to set the transparency -- 255 means the object is fully opaque, while 0 is fully transparent.
+
+There are a variety of other parameters that can be set to affect the way your drawing looks.  A few useful ones include:
+
+\begin{itemize}
+\item \texttt{strokeWeight(weight)} -- sets the thickness of your stroke lines (weight is between 0 and 255).
+\item \texttt{noStroke()} -- removes the stroke from your drawings
+\item \texttt{noFill()} -- removes the fill from your drawings.
+\end{itemize}
+
+Note that if you remove the stroke \emph{and} the fill, all of your shapes will disappear!
+
+There are four primitives shapes in Processing that you will use in most of your sketches.  They are:
+
+\begin{itemize}
+\item \texttt{point(x,y)} -- x,y draws a single point
+\item \texttt{line($x_{1},y_{1},x_{2},y_{2}$)} -- draws a line from ($x_{1},y_{1}$) to ($x_{2},y_{2}$).
+\item \texttt{rect(x,y,width,height)} -- draws a rectangle with given width and height, with the top-left corner at (x,y).
+\item \texttt{ellipse($x,y,r_{x},r_{y}$)} -- draws an ellipse centered at (x,y) with axes $r_{x}$ and $r_{y}$.
+\end{itemize}
+
+As you can see, each of these primitives takes arguments of \emph{coordinates}.  These coordinates correspond to pixels in your Processing sketch.  It helps to think of your sketch as a piece of graph paper, with a pixel at each integer (x,y) location.  Now it's your turn to start drawing!
+
+\subsubsection{Programming Tasks: Drawing Primitives}
+Open up template.pde.  \textbf{Make a copy of it}, and use this copy as an outline for your code.  If you get stuck, solutions are provided.
+
+\begin{enumerate}
+\item Draw a rectangle that is the size of your sketch with a solid fill.
+\item On top of that, draw two lines going across the diagonals of the rectangle (make these lines a different color).
+\item On top of the two lines, draw a transparent circle centered in the rectangle.
+\item Finally, draw a point inside the circle but (visibly) off-center.
+\end{enumerate}
+
+What this exercise should have taught you is that coding every shape you want separately is slow and inefficient.  Not to mention, gorgeous pieces of visual art don't come from six shapes -- you might want hundreds or even thousands of shapes in a single sketch!  We're here to make not just visual art, but \emph{generative} art -- we need code that will help us generate patterns, and perhaps even make decisions about the patterns that its generating.  \emph{Control Flow} helps us accomplish the task of coding up many shapes in a structured way.
+
+\subsection{Introductory Control Flow}
+In this section we will introduce the concepts of \emph{conditionals} and \emph{loops}, two extremely important concepts of programming.  You will use these in nearly every sketch from here on out -- so learn them well!
+
+A \emph{conditional} is a statement that asks a question -- and receives an answer of whether the statement is \texttt{True} or \texttt{False}.  This is done with \emph{operators} which are used to compare two values.  Examples are:
+
+\begin{itemize}
+\item $==$ -- equal to (a == b means a equals b)
+\item $!=$ -- not equal to
+\item $<$ -- less than
+\item $=<$ -- less than OR equal to
+\end{itemize}
+
+conditionals are used to allow your program to make decisions.  An example of a decision that can be made with conditionals is an \emph{if statement}:
+
+\begin{verbatim}
+if (conditional){
+//code to run if the conditional is TRUE
+}
+else {
+//code that runs if the conditional is NOT TRUE
+}
+\end{verbatim}
+
+In this loop you put a conditional in parenthesis right after the word `if'; if this conditional is \texttt{True} then the block of code insides of the braces runs.  The \texttt{else} portion is optional -- it presents an option in case the conditional is determined not to be true.  If no \texttt{else} statement is specified, Processing just proceeds with the code.
+
+In addition to conditionals, we also have \emph{loops} available to use.  Loops allow us to repeat commands in a controlled fashion.  These are better explained through an example.
+
+\subsubsection{Example: Simple Droplet (again)}
+\begin{verbatim}
+int diam = 100;
+float centX, centY;
+
+void setup(){
+  size(500,300);
+  background(64,0,196);
+  centX = width/2;
+  centY = height/2;
+  stroke(0,0,255);
+  strokeWeight(1);
+  fill(255,25);
+  while(diam < 400){
+    ellipse(centX,centY,diam,diam);
+   diam += 10; 
+  }
+}
+\end{verbatim}
+
+This code is very similar to the example shown earlier, so let's skip to the interesting stuff.  At the bottom we have a \texttt{while} loop.  This loop takes one conditional statement, and as long as that statement resolves to \texttt{True}, then the code inside the braces continues to run.  This code starts by drawing an ellipse with diameter 100, and then increases the diameter by 10 after every ellipse it draws until the diameter is 400; at this point Processing exits the \texttt{while} loop and then finishes the program.
+
+If we know how many steps we want to take, rather than just loop through the same code until a condition is met, we can use a \texttt{for} loop instead.  The structure of a \texttt{for} loop is as follows:
+
+\begin{verbatim}
+for (start condition; continue condition; iterate condition) {
+//code to run while iterating
+}
+\end{verbatim}
+
+Again, an example is probably better than words for explaining this.  So let's look at an example:
+
+\begin{verbatim}
+float centX, centY;
+
+void setup(){
+  size(500,300);
+  background(64,0,196);
+  centX = width/2;
+  centY = height/2;
+  stroke(0,0,255);
+  strokeWeight(1);
+  fill(255,25);
+  for(int diam = 100; diam < 400; diam +=10){
+    ellipse(centX,centY,diam,diam);
+  }
+}
+\end{verbatim}
+
+Our start condition is that diam is set to 100; we continue as long as diam is less than 400; and each time we complete the contents of the loop we increase diam by 10.  The contents of each loop is simply to draw an ellipse, so the code ends up alternating between drawing an ellipse, increasing diam, drawing an ellipse, etc until diam is equal to 400.
+
+You'll notice that diam is no longer a global variable -- it is declared \emph{inside} the \texttt{for} loop, and exists only inside the loop.  Outside of the for loop, no other bit of code can access what value diam is.
+
+Another thing to notice is that both pieces of code (the \texttt{for} and \texttt{while} loops) achieve the same result -- however, the way each loops approaches the problem is slightly different.  Feel free to use whichever loop is more intuitive for you!
+
+\subsubsection{Programming Tasks: Rectangles I}
+Now it's your turn to get some practice in with control flow.
+
+Open up rectangles.pde.  Use this file as a template for these tasks (make a copy!).  I highly recommend that you save each completed task as a separate file.  If you get stuck, solutions are provided.
+
+\begin{enumerate}
+\item Using a \texttt{for} loop, edit the code such that the rectangles change color from left to right.
+\item Using a \texttt{if} loop, make the rectangles alternate between two colors.
+\item Using a \texttt{for} loop, make the rectangles change color according to a sine function.
+\begin{itemize}
+\item HINT: Think about the possible values of a sine function.
+\end{itemize}
+\end{enumerate}
+
+\subsection{Animating Your Sketch}
+So far all of our programs have generated static images.  While these are great (and we will continue to use static sketches extensively throughout this class!), creating dynamic animations is where Processing really shines.
+
+\texttt{draw()} is the function we use to create animations.  Everything within \texttt{draw()} is performed for each and every frame (you can set the framerate with \texttt{frameRate()}; a frameRate of at least 24 is recommended for smooth animations); within draw you can also have as many loops or conditionals as you like.  Just remember -- the more stuff you put in draw, the slower draw will be!  All of the code has to be run for every single frame, so try not to put anything too computationally intensive in there!
+
+Let's look at an example (and now you'll see why I called the earlier sketch `simple droplet'):
+
+\subsubsection{Example: Simple Droplet II}
+\begin{verbatim}
+int diam = 100;
+float centX, centY;
+
+void setup() {
+  size(500, 300);
+  frameRate(24);
+  smooth();
+  background(64, 0, 196);
+  centX = width/2;
+  centY = height/2;
+  stroke(0, 0, 255);
+  strokeWeight(1);
+  fill(255, 25);
+}
+
+void draw() {
+  if (diam < 400) {
+    ellipse(centX, centY, diam, diam);
+    diam += 10;
+  }
+  if (diam == 400) {
+    diam = 0;
+  }
+}
+\end{verbatim}
+
+\subsubsection{Programming Tasks: Rectangles II}
+These tasks will build upon the earlier programming tasks.  Again, solutions are provided if you run into trouble.
+\begin{enumerate}
+\item Animate the rectangles so that they simultaneously fade smoothly from one to another color.
+\item Animate the rectangles so that a uniquely colored square moves from left to right.
+\begin{itemize}
+\item HINT: You may want to use \texttt{delay()} (\url{http://processing.org/reference/delay_.html})
+\end{itemize}
+\item Animate the rectangles so that the color fades continuously from left to right.
+\begin{itemize}
+\item HINT: This should build upon the third exercise you did earlier.
+\end{itemize}
+\end{enumerate}
+
+\subsection{Saving Your Work}
+\subsubsection{Still Images}
+If you would like to save a still image of your work, just include the line:
+
+\begin{verbatim}
+saveFrame('filename.jpg');
+\end{verbatim}
+
+Processing can save your image as either a .jpg or .png file (.jpgs are compressed, .pngs are not).  Just remember that if you put this in the \texttt{draw()} loop, you'll replace that same image for every frame!  Therefore, this is best to use for sketches where you will only use \texttt{setup()}.
+
+\subsubsection{Sharing Sketches}
+\url{http://openprocessing.org/}, mentioned above, is an excellent resource for publishing your sketches.  It is also the easiest way to share videos of your sketches -- the sketch will run in the user's browser, allowing them to see your sketch in full animated glory!
+
+openprocessing has some excellent instructions for how to upload a sketch at \url{http://www.openprocessing.org/sketch/upload/}.
+
+\subsection{Homework Project -- Spiral}
+Each class will have a homework assignment to reinforce the topics learned during class, and give you a chance to practice!  This week's project will be to make an animated spiral.  Your project should do the following:
+
+\begin{enumerate}
+\item Have the circle follow a spiral path towards the center of the sketch
+\item Use alpha transparency values to create a trail behind the circle
+\item Change colors in some fashion
+\end{enumerate}
+
+However, if you finish early, there is a lot more you can do!  How about trying:
+
+\begin{itemize}
+\item Make the spiral change speeds.
+\item Make it change directions.
+\item Add multiple `arms' to your spiral.
+\item Use a shape other than circle -- have it spiral in a rectangular or triangular pattern.
+\item Instead of doing a spiral, make a spirograph generator! (ask me if you want help with this)
+\end{itemize}
+
+I've provided a template in spiral\_template.pde that draws a single ball moving in a circular ring.  Feel free to use it or start from scratch!  I'll provide an example solution later this week.
+
+Potential resources:
+\begin{itemize}
+\item \url{http://processing.org/learning/trig/}
+\item \url{http://en.wikipedia.org/wiki/Polar_coordinate_system}
+\item \url{http://mathworld.wolfram.com/Hypocycloid.html}
+\end{itemize}
+
+When you're done with your sketch, load it onto \url{http://openprocessing.org/} and post it in the CEMMI Forums under `Show and Tell' (located here -- \url{http://cemmi.org/index.php/forum/25-show-and-tell}).
+
+\subsubsection{Resources}
+\subsubsubsection{Online}
+\begin{itemize}
+\item \url{http://processing.org/} -- the homepage of Processing, with lots of documentation and tutorials available.
+\item \url{http://openprocessing.org/} -- a site for sharing Processing sketches.  This is a great place to post your own sketches, and find ideas to influence your own sketches.  Currently only compatible with Processing 1.5.1
+\item \url{http://stackoverflow.com/questions/tagged/processing} -- StackOverflow is a free Q\&A website for programming questions.  Anyone is free to ask a question, and the community will try to help you solve your problems.
+\item \url{http://cemmi.org/index.php/forum/index} -- Feel free to discuss any work related to this course in the Education forums, and any personal projects in the Programming forums.  The CEMMI forums are a great way to contact other people in the class, and other people in the Greater Camberville Area that are interested in Processing.
+\end{itemize}
+
+\subsubsubsection{Books}
+\begin{itemize}
+\item Processing: A Programming Handbook for Visual Designers and Artists (Casey Reas and Ben Fry) -- An extremely comprehensive beginner to intermedaite book by the authors of Processing.
+\item Learning Processing: A Beginner's Guide to Programming Images, Animation, and Interaction (Daniel Shiffman) -- A beginner-intermediate level book on Processing.  Many examples to provide you with inspirations.
+\item Generative Art: A Practical Guide to Processing (Matt Pearson) -- An intermediate-level book on Processing with a focus on using it to produce generative art.  Lots of ideas for harnessing randomness and complexity to generate compelling visual art.
+\end{itemize}
+
+\subsubsubsection{Meatspace}
+\begin{itemize}
+\item CEMI Electronic Media Institute (CEMI)
+\item Your Regularly Scheduled Programming (YRSP)
+\end{itemize}

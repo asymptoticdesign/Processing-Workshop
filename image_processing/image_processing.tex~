@@ -1,0 +1,48 @@
+\documentclass[11pt]{article}
+
+%packages
+\usepackage{times}
+\usepackage[small,compact]{titlesec}
+\usepackage[small,it]{caption}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage[final]{pdfpages}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{lipsum}
+
+%header, footer, spacing setup
+\pagestyle{fancyplain}
+\singlespacing
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[CE,CO]{Processing Workshop -- Image Processing}
+\fancyfoot[CE,CO]{\thepage}
+
+\begin{document}
+
+\centerline{\Large \bf Processing Workshop}
+\medskip
+\centerline{Course Notes by Nathan Lachenmyer}
+%\medskip
+%\centerline{Last Updated: \today}
+\bigskip
+
+\section{Introduction}
+Processing can load, display, and modify images through the use of a data type called {\tt PImage}.  In the same way that {\tt int} or {\tt float} provides a data type to store numerical values, {\tt PImage} provides a structure for storing Using this data type, Processing can read {\tt .gif}, {\tt .jpg}, and {\tt .png} image files.  
+
+\url{http://processing.org/reference/PImage.html}
+\url{http://processing.org/learning/color/}
+
+\section{PImage -- the Image datatype}
+
+blue flowers --  shioshvili
+purple -- CraftyBunny
+lily -- Flower's.Lover
+
+
+\end{document}
