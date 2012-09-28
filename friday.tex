@@ -83,8 +83,7 @@ Turn \textbf{science} into \textbf{art}.
 \end{frame}
 
 \begin{frame}
-\frametitle{My Work}
-\framesubtitle{Physical Phenomena}
+\frametitle{Introductions}
 \begin{itemize}
 \item Name
 \item What do you want to get out of this class?
@@ -123,104 +122,234 @@ Download Processing 1.5.1 (\textbf{NOT} 2.0b3!)
 \end{frame}
 
 \begin{frame}
-\frametitle{Environment}
-%picture of processing environment
-\end{frame}
-
-%piece of demo code
-
-%fundamental objects -- functions and expressions
-
-\begin{frame}
-\frametitle{Structure}
-Human language is flexible in terms of diction and syntax.
-%example?
+\frametitle{Download Course Materials}
+\begin{center}
+\url{fixme}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Structure}
+Human language is flexible in terms of diction and syntax. \\
+\pause
 Computer language is not.
-%example?
 \end{frame}
 
 \begin{frame}
 \frametitle{Structure}
-Expression $\approx$ Phrase
+Expression $\approx$ Phrase \\
+\pause
+{\tt 2 + 2} \\
+{\tt ((3 * 4) + 2)} \\
+1{\tt  < 2} \\
 \end{frame}
-%example
 
 \begin{frame}
 \frametitle{Structure}
-Statement $\approx$ Sentence
+Statement $\approx$ Sentence \\
+\pause
+{\tt size(500,250*2);} \\
+{\tt int x = 1;} \\
 \end{frame}
-%example
-%semicolon ~ period!
 
 \begin{frame}
 \frametitle{Structure}
-Functions $\approx$ Paragraphs
+Functions $\approx$ Paragraphs \\
+\pause
+{\tt background(0);} \\
+{\tt size(200,200);} \\
 \end{frame}
-%example
 
 \begin{frame}
 \frametitle{Structure}
-Capitalization MATTERS
-White Space DOES NOT
+\begin{center}
+Capitalization matters \\
+\pause
+White Space doesn't \\
+\pause
 // creates a comment
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Primitives}
+\begin{center}
+\includegraphics[width=0.6\linewidth]{coordinates.jpg}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Primitives}
-Coordinate System %image
+\begin{center}
+{\tt point(x position, y position)}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Primitives}
-point
+\begin{center}
+\includegraphics[width=\linewidth]{point.jpg}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Primitives}
-line
+\begin{center}
+{\tt line(first x, first y, second x, second y)}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Primitives}
-ellipse
+\begin{center}
+\includegraphics[width=\linewidth]{line.jpg}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Primitives}
-
+\framesubtitle{Shapes}
+\begin{center}
+{\tt shape(center in x, center in y, size in x, size in y)}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Primitives}
-rectangle
+\framesubtitle{Rectangle}
+\begin{center}
+\includegraphics[width=\linewidth]{rect.jpg}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Primitives}
-triangle
+\framesubtitle{Ellipse}
+\begin{center}
+\includegraphics[width=\linewidth]{ellipse.jpg}
+\end{center}
 \end{frame}
 
-%draw some shapes!
+\begin{frame}
+\frametitle{Primitives}
+\framesubtitle{Center Mode}
+\begin{center}
+\includegraphics[width=\linewidth]{rectCenter.jpg}
+\end{center}
+\end{frame}
 
-%try changing window size -- wouldn't it be nice if objects resized automatically?
+\begin{frame}
+\frametitle{Primitives}
+\begin{center}
+Try it!
+\end{center}
+\end{frame}
 
-%introduce variables --> need to know data types
+\begin{frame}
+\frametitle{Primitives}
+\begin{center}
+\includegraphics[width=0.8\linewidth]{simpleShapes.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Colors}
+\begin{center}
+{\tt fill(greyscale)}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Colors}
+\begin{center}
+{\tt fill(greyscale,alpha)}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Colors}
+\begin{center}
+{\tt fill(red,blue,green)}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Colors}
+\begin{center}
+{\tt fill(red,blue,green,alpha)}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Colors}
+\framesubtitle{Related Functions}
+\begin{center}
+{\tt stroke()} \\
+{\tt noStroke()} \\
+{\tt noFill()} 
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Colors}
+\begin{center}
+Try it!
+\end{center}
+\end{frame}
 
 \begin{frame}
 \frametitle{Data Types}
+\begin{center}
+Try doubling the window size with {\tt size()}. \\
+\pause
+The shapes aren't centered anymore!
+\end{center}
 \end{frame}
 
-%\begin{frame}
-%\frametitle{Functions}
-%\end{frame}
+\begin{frame}
+\frametitle{Data Types}
+\begin{center}
+Variables are used to {\bf store} data so that it can be {\bf reused} easily.
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Data Types}
+\begin{columns}
+\column{.5\textwidth}
+\begin{block}
+Initialize variable
+Assign value to variable
+\end{block}
+\column{.5\textwidth}
+\begin{block}
+{\tt int x;}
+{\tt x = 5;}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Data Types}
+\begin{itemize}
+\item {\tt int}
+\item {\tt float}
+\item {\tt boolean}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Data Types}
+\begin{center}
+Back to Processing!
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Data Types}
+\begin{center}
+Draw an shape collage that scales with the window size.
+\end{center}
+\end{frame}
 
 \end{document}
-%http://www.openprocessing.org/classroom/2043

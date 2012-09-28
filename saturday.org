@@ -1,5 +1,6 @@
 * Lecture (120 min; 10am-12pm)
 ** Decisions, Repetition (1.5 hours)
+** Functions
 ** Introduce Projects (15 min)
 
 *** Image Processing (static)

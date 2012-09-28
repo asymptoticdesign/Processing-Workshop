@@ -24,28 +24,42 @@
 \fancyfoot[CE,CO]{\thepage}
 
 \begin{document}
-
-\centerline{\Large \bf Processing Workshop}
+\thispagestyle{empty}
+\centerline{\Large \bf Image Processing Project}
 \medskip
-\centerline{Course Notes by Nathan Lachenmyer}
+\centerline{Processing Workshop -- Sept 2012}
 %\medskip
 %\centerline{Last Updated: \today}
 \bigskip
 
 \section{Introduction}
-Processing can load, display, and modify images through the use of a data type called {\tt PImage}.  In the same way that {\tt int} or {\tt float} provides a data type to store numerical values, {\tt PImage} provides a structure for storing Using this data type, Processing can read {\tt .gif}, {\tt .jpg}, and {\tt .png} image files.  However, before you can display an image you must first make the image accessible to Processing.  This can be done by going to the Sketch menu of the Processing IDE and selecting ``Add File''.  You may then navigate to the image's location and select it to add it to the sketch's data folder.
+Processing can load, display, and modify images through the use of a data type called {\tt PImage}.  In the same way that {\tt int} or {\tt float} provides a data type to store numerical values, {\tt PImage} provides a structure for storing Using this data type, Processing can read {\tt .gif}, {\tt .jpg}, and {\tt .png} image files.  However, before you can display an image you must first make the image accessible to Processing.  This can be done by going to the Sketch menu of the Processing IDE and selecting ``Add File''.  You may then navigate to the image's location and select it to add it to the sketch's data folder.  Images have been provided; however, feel free to use your own images or search for additional (free use) images on \url{http://search.creativecommons.org/}.
 
-
-\url{http://processing.org/learning/color/}
-
-\section{PImage -- Basic Operations}
-The first thing to do when interacting with a new data type is to learn about its constructors (which tell you how to create the data type) and methods (which allow you to modify the data once it has been created).  PImage is part of the standard Processing library; therefore you can find out more about it at \url{http://www.processing.org/}.  Go to \url{http://processing.org/reference/PImage.html} and read about the PImage data type, then answer the following questions:
+\section{{\tt PImage} -- Basic Operations}
+The first thing to do when interacting with a new data type is to learn about its constructors (which tell you how to create the data type) and methods (which allow you to modify the data once it has been created).  {\tt PImage} is part of the standard Processing library; therefore you can find out more about it at \url{http://www.processing.org/}.  Go to \url{http://processing.org/reference/PImage.html} and read about the {\tt PImage} data type, then to the folowing tasks:
 
 \begin{enumerate}
-\item 
+\item Load an image and draw it to your canvas.  You'll need to use {\tt loadImage()} to load the image from your data folder, and then {\tt image()} to draw the image.  You can find these under ``Related'' on {\tt PImage}'s documentation page if you're not sure what their arguments are.
+\item Draw two images in the display window so that you can see both images at the same time.
+\item Draw three images in the display winow such that all three images do not overlap.
 \end{enumerate}
 
+\section{Modifying Images}
+Now that you're comfortable with importing and placing images, the next goal is to start manipulating images.  Processing comes with a variety of predefined functions to help you accomplish this.  The next set of tasks will introduce you to some of these.
 
+\begin{enumerate}
+\item The {\tt tint()} function allows you to color images in a fashion very similar to {\tt stroke} and {\tt fill()}.  Try tinting the images with both greyscale and RGB color arguments.
+\item Transparency effects can be achieved with two argument greyscale colors and four argument RGB colors.  Try layering multiple semi-transparent images over each other.
+\item \url{http://processing.org/reference/filter_.html}
+\item \url{http://processing.org/reference/blend_.html}
+\end{enumerate}
 
+\subsection*{Project}
+
+\section{Images as Data}
+-get, set
+-getPixels
+-blockify images
+-Edge-Finding Algorithm
 
 \end{document}
